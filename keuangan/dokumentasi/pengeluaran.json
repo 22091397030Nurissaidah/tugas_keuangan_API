@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Pengeluaran API",
-    "description": "API for managing expense data",
+    "title": "Pengeluaran Money Me",
+    "description": "API Pengeluaran",
     "version": "1.0.0"
   },
   "servers": [
@@ -12,8 +12,8 @@
   ],
   "paths": {
     "/add_expense": {
-      "post": {
-        "summary": "Add new expense data",
+      "put": {
+        "summary": "Add a new expense",
         "requestBody": {
           "description": "Expense data",
           "content": {
@@ -23,32 +23,25 @@
                 "properties": {
                   "tanggal": {
                     "type": "string",
-                    "description": "Date of expense (format: YYYY-MM-DD)"
+                    "description": "Date of the expense"
                   },
                   "keterangan": {
                     "type": "string",
-                    "description": "Description of expense"
+                    "description": "Description of the expense"
                   },
                   "keperluan": {
                     "type": "string",
-                    "description": "Purpose of expense"
+                    "description": "Purpose of the expense"
                   },
                   "jumlah": {
                     "type": "number",
-                    "description": "Amount of expense"
+                    "description": "Amount spent"
                   },
                   "username": {
                     "type": "string",
                     "description": "Username of the user"
                   }
-                },
-                "required": [
-                  "tanggal",
-                  "keterangan",
-                  "keperluan",
-                  "jumlah",
-                  "username"
-                ]
+                }
               }
             }
           }
@@ -63,11 +56,11 @@
                   "properties": {
                     "Status": {
                       "type": "string",
-                      "description": "Status message"
+                      "description": "Status of the operation"
                     },
                     "Message": {
                       "type": "string",
-                      "description": "Success message"
+                      "description": "Message indicating success"
                     }
                   }
                 }
@@ -81,11 +74,82 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update_expense": {
+      "patch": {
+        "summary": "Update an existing expense",
+        "requestBody": {
+          "description": "Expense update data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tanggal": {
+                    "type": "string",
+                    "description": "Updated date of the expense"
+                  },
+                  "keterangan": {
+                    "type": "string",
+                    "description": "Updated description of the expense"
+                  },
+                  "keperluan": {
+                    "type": "string",
+                    "description": "Updated purpose of the expense"
+                  },
+                  "jumlah": {
+                    "type": "number",
+                    "description": "Updated amount spent"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "ID of the expense to update"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "Status": {
                       "type": "string",
-                      "description": "Status message"
+                      "description": "Status of the operation"
                     },
                     "Message": {
+                      "type": "string",
+                      "description": "Message indicating success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
                       "type": "string",
                       "description": "Error message"
                     }
@@ -99,9 +163,9 @@
     },
     "/delete_expense": {
       "delete": {
-        "summary": "Delete expense data",
+        "summary": "Delete an existing expense",
         "requestBody": {
-          "description": "Expense data",
+          "description": "Expense deletion data",
           "content": {
             "application/json": {
               "schema": {
@@ -109,96 +173,9 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "ID of the expense data to be deleted"
-                  }
-                },
-                "required": ["id"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "description": "Status message"
-                    },
-                    "message": {
-                      "type": "string",
-                      "description": "Success message"
-                    }
+                    "description": "ID of the expense to delete"
                   }
                 }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "description": "Status message"
-                    },
-                    "message": {
-                      "type": "string",
-                      "description": "Error message"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/update_expense": {
-      "post": {
-        "summary": "Update expense data",
-        "requestBody": {
-          "description": "Expense data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "tanggal": {
-                    "type": "string",
-                    "description": "Date of expense (format: YYYY-MM-DD)"
-                  },
-                  "keterangan": {
-                    "type": "string",
-                    "description": "Description of expense"
-                  },
-                  "keperluan": {
-                    "type": "string",
-                    "description": "Purpose of expense"
-                  },
-                  "jumlah": {
-                    "type": "number",
-                    "description": "Amount of expense"
-                  },
-                  "id": {
-                    "type": "string",
-                    "description": "ID of the expense data to be updated"
-                  }
-                },
-                "required": [
-                  "tanggal",
-                  "keterangan",
-                  "keperluan",
-                  "jumlah",
-                  "id"
-                ]
               }
             }
           }
@@ -213,11 +190,11 @@
                   "properties": {
                     "Status": {
                       "type": "string",
-                      "description": "Status message"
+                      "description": "Status of the operation"
                     },
                     "Message": {
                       "type": "string",
-                      "description": "Success message"
+                      "description": "Message indicating success"
                     }
                   }
                 }
@@ -231,11 +208,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "Status": {
-                      "type": "string",
-                      "description": "Status message"
-                    },
-                    "Message": {
+                    "error": {
                       "type": "string",
                       "description": "Error message"
                     }
